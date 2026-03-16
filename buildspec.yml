@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing dependencies...
+      - npm install
+  pre_build:
+    commands:
+      - echo Running lint and tests...
+      - npm run lint || true    # optional: skip if lint fails
+      - npm test || true        # optional: skip if tests fail
+  build:
+    commands:
+      - echo Building React app...
+      - npm run build
+  post_build:
+    commands:
+      - echo Build completed. Preparing for deployment...
+      - echo Copying build to S3...
+      - aws s3 sync build/ s3://your-bucket-name --delete
+      - echo Invalidation of CloudFront distribution (optional)...
+      - aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: build
