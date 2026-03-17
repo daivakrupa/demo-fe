@@ -20,11 +20,11 @@ phases:
     commands:
       - echo Build completed. Preparing for deployment...
       - echo Copying build to S3...
-      - aws s3 sync build/ s3://your-bucket-name --delete
+      - aws s3 sync dist/ s3://demo-dv-frontend --delete
       - echo Invalidation of CloudFront distribution (optional)...
-      - aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+      - aws cloudfront create-invalidation --distribution-id E1W9WPOBH3A9L7 --paths "/*"
 
 artifacts:
   files:
     - '**/*'
-  base-directory: build
+  base-directory: dist
