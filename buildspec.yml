@@ -12,7 +12,7 @@ phases:
   build:
     commands:
       - echo "Uploading files to S3..."
-      - aws s3 cp index.html s3://demo-dv-frontend/index.html --acl public-read
+      - aws s3 cp index.html s3://demo-dv-frontend/index.html
   
   post_build:
     commands:
