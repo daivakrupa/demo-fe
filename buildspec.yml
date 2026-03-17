@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  # install:
+  #   commands:
+  #     - echo "No install needed for static HTML"
+
+  # pre_build:
+  #   commands:
+  #     - echo "Preparing deployment..."
+
+  build:
+    commands:
+      - echo "Uploading files to S3..."
+      - aws s3 cp index.html s3://demo-dv-frontend/index.html --acl public-read
+  
+  post_build:
+    commands:
+      - echo "Invalidating CloudFront cache..."
+      - aws cloudfront create-invalidation --distribution-id E1W9WPOBH3A9L7 --paths "/*"
+      - echo "Deployment completed successfully."
+
+artifacts:
+  files:
+    - index.html
